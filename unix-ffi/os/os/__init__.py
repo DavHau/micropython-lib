@@ -55,6 +55,9 @@ if libc:
     execvp_ = libc.func("i", "execvp", "PP")
     kill_ = libc.func("i", "kill", "ii")
     getenv_ = libc.func("s", "getenv", "P")
+    chmod_ = libc.func("i", "chmod", "si")
+    chown_ = libc.func("i", "chown", "sii")
+    symlink_ = libc.func("i", "symlink", "ss")
 
 
 def check_error(ret):
@@ -314,3 +317,18 @@ def popen(cmd, mode="r"):
     else:
         close(o)
         return builtins.open(i, mode)
+
+def chmod(path, mode):
+    r = chmod_(path, mode)
+    check_error(r)
+    return r
+
+def chown(path, uid, gid):
+    r = chown_(path, uid, gid)
+    check_error(r)
+    return r
+
+def symlink(old, new):
+    r = symlink_(old, new)
+    check_error(r)
+    return r
